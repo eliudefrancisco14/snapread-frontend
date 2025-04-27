@@ -24,6 +24,7 @@ export function CardView() {
     const [text, setText] = React.useState<string>("")
     const [loading, setLoading] = React.useState<boolean>(false)
     const [error, setError] = React.useState<string>("")
+    const baseURL = process.env.NEXT_PUBLIC_API_URL
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -40,13 +41,14 @@ export function CardView() {
         setError("")
         const formData = new FormData()
         formData.append("file", file)
+        console.log("Base URL:", baseURL)
         try {
-            const response = await axios.post<fileType>("http://localhost:8000/api/snapread/ocr", formData, {
+            const response = await axios.post<fileType>(`${baseURL}/api/snapread/ocr`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             })
-            console.log(response.data)
+            // console.log(response.data)
             setText(response.data.text)
         } catch (error) {
             setError("Error processing file")
