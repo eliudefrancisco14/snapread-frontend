@@ -41,7 +41,6 @@ export function CardView() {
         setError("")
         const formData = new FormData()
         formData.append("file", file)
-        console.log("Base URL:", baseURL)
         try {
             const response = await axios.post<fileType>(`${baseURL}/api/snapread/ocr`, formData, {
                 headers: {
